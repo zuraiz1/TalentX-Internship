@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OVERWATCH</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-left">
+    <div class="masthead-mark">◆</div>
+    <div class="masthead-title">OVERWATCH</div>
+  </div>
+  <div class="masthead-right">
+    <span class="clock" id="clock">{{ now }}</span>
+    <span class="divider">/</span>
+    <span class="count">{{ item_count }} dispatches</span>
+  </div>
+</header>
+
+<div class="ask-bar">
+  <form id="ask-form">
+    <span class="ask-prompt">&gt;</span>
+    <input type="text" id="ask-input" name="question" placeholder="ask about anything in the feed..." autocomplete="off">
+    <button type="submit">query</button>
+  </form>
+  <div id="ask-response" class="ask-response hidden"></div>
+</div>
+
+<div class="filters">
+  <form method="get" class="filter-form">
+    <label>window
+      <select name="hours" onchange="this.form.submit()">
+        {% for h in [3, 6, 12, 24, 48] %}
+        <option value="{{ h }}" {% if hours == h %}selected{% endif %}>{{ h }}h</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>cluster
+      <select name="cluster" onchange="this.form.submit()">
+        <option value="">all</option>
+        {% for c in cluster_labels %}
+        <option value="{{ c }}" {% if cluster == c %}selected{% endif %}>{{ c.replace('_', ' ') }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>topic
+      <select name="topic" onchange="this.form.submit()">
+        <option value="">all</option>
+        {% for t in topic_labels %}
+        <option value="{{ t }}" {% if topic == t %}selected{% endif %}>{{ t }}</option>
+        {% endfor %}
+      </select>
+    </label>
+  </form>
+</div>
+
+{% if briefing_text %}
+<section class="briefing-panel">
+  <div class="panel-eyebrow">latest briefing — {{ briefing_file }}</div>
+  <pre class="briefing-text">{{ briefing_text }}</pre>
+</section>
+{% endif %}
+
+<section class="feed">
+  <div class="rail"></div>
+  {% if items %}
+    {% for item in items %}
+    <article class="dispatch">
+      <div class="dispatch-tick"></div>
+      <div class="dispatch-time">
+        <span class="rel">{{ item.relative }}</span>
+      </div>
+      <div class="dispatch-body">
+        <div class="dispatch-tags">
+          <span class="tag tag-{{ item.cluster }}">{{ item.cluster.replace('_', ' ') }}</span>
+          <span class="tag tag-topic">{{ item.topic }}</span>
+          <span class="tag-source">{{ item.source }}</span>
+        </div>
+        <h2 class="dispatch-title"><a href="{{ item.url }}" target="_blank" rel="noopener">{{ item.title }}</a></h2>
+        {% if item.content %}
+        <p class="dispatch-summary">{{ item.content[:280] }}{% if item.content|length > 280 %}…{% endif %}</p>
+        {% endif %}
+      </div>
+    </article>
+    {% endfor %}
+  {% else %}
+    <div class="empty-state">
+      Nothing in this window. Widen the time range, or run <code>python news_briefing.py fetch</code>.
+    </div>
+  {% endif %}
+</section>
+
+<script>
+function tick() {
+  document.getElementById('clock').textContent = new Date().toLocaleTimeString('en-GB');
+}
+setInterval(tick, 1000);
+
+document.getElementById('ask-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const input = document.getElementById('ask-input');
+  const responseBox = document.getElementById('ask-response');
+  const question = input.value.trim();
+  if (!question) return;
+
+  responseBox.classList.remove('hidden');
+  responseBox.textContent = 'thinking...';
+
+  const formData = new FormData();
+  formData.append('question', question);
+
+  try {
+    const res = await fetch('/ask', { method: 'POST', body: formData });
+    const data = await res.json();
+    responseBox.textContent = data.answer;
+  } catch (err) {
+    responseBox.textContent = 'Error reaching the local model. Is Ollama running?';
+  }
+});
+</script>
+
+</body>
+</html>
