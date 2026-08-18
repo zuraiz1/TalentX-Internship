@@ -5,10 +5,6 @@ This is what this folder looks like:
 ```
 TalentX - Zuraiz/
 ├── README.md
-├── Advisories/
-│   └── ...     --ALL THE ADVISORIES I MADE--
-├── Documents/
-│   └── ...     --ALL THE DOCUMENTS I MADE--
 ├── Failed/
 │   └── ...     --ALL FAILED PROJECTS--
 └──Projects/
