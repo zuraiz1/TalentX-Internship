@@ -37,5 +37,5 @@ To set it up, make 2 ChatGPT projects. Name them accordingly, and set the memory
 | Project 1                                        | Project 2                                                              |
 | ------------------------------------------------ | ---------------------------------------------------------------------- |
 | Content_Generation                               | Graphics_Generation                                                    |
-| [Instructions](Content_Generation_instruction%5C) | [Instructions](Graphic_Generation_instruction%5C)                       |
+| [Instructions](Content_Generation_instruction.md) | [Instructions](Graphic_Generation_instruction.md)                       |
 | **Source files:**<br><br>          None          | **Source files:**<br>1. Design Booklet<br>2. Example 1<br>3. Example 2 |
