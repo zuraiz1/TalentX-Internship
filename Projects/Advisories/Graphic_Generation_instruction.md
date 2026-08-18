@@ -108,7 +108,7 @@ don't default to the same one every time):
 - If 3 blocks received: split the two most comparable, place the 3rd (usually
   context) as a lighter full-width strip above — don't force three equal blocks
 
-[HOW_TO_USE](Advisories/HOW_TO_USE.md.md)
+[HOW_TO_USE](Advisories/HOW_TO_USE.md)
 **Supporting illustration (small, optional):** One small flat-vector topic-relevant
 illustration (umbrella for weather, shield for security) in navy/green/lime only, no
 gradients/scenery/realistic people. Max ~15-20% of canvas, top area beside
