@@ -31,7 +31,7 @@ TalentX - Zuraiz/
 ---
 # INDEX
 
-1. [Advisories](Advisories/HOW_TO_USE.md.md)
-2. [Bulk Logo](Bulk%20Logo/HOW_TO_USE.md.md) 
-3. [Flight Watch](Flight%20Watch/HOW_TO_USE.md.md)
-4. [News Watch](HOW%20TO%20USE.md.md)
+1. [Advisories](Advisories/HOW_TO_USE.md)
+2. [Bulk Logo](Bulk%20Logo/HOW_TO_USE.md) 
+3. [Flight Watch](Flight%20Watch/HOW_TO_USE.md)
+4. [News Watch](HOW%20TO%20USE.md)
